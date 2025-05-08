@@ -1,7 +1,10 @@
 import sys
 import logging
 from typing import List
-from tools.titanic_pandas_tool import titanic_pandas_tool
+# See: https://github.com/google/generative-ai-python/blob/main/google/generativeai/client.py
+from langchain_google_genai import ChatGoogleGenerativeAI
+from tools.pandas_tools import create_pandas_agent
+from google.api_core import exceptions as google_exceptions
 
 # Configure logging
 logging.basicConfig(
@@ -35,11 +38,32 @@ def main(args: List[str] = None) -> None:
         logger.info("Processing user query: %s", query)
     
     try:
-        # Run the query using the pandas tool
-        logger.info("Executing query using TitanicPandasTool...")
-        result = titanic_pandas_tool.run(query)
+        # Initialize the model and pandas agent
+        logger.info("Initializing model and pandas agent...")
+        # See: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
+        model = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash-preview-04-17",  # Latest Gemini model
+            temperature=0,  # Deterministic output
+            convert_system_message_to_human=True  # Required for Gemini
+        )
+        pandas_agent = create_pandas_agent(model)
+        logger.info("Model and pandas agent initialized successfully")
+        
+        # Run the query using the pandas agent
+        logger.info("Executing query using pandas agent...")
+        result = pandas_agent.invoke(query)
         logger.info("Query executed successfully")
         print(result)
+    except google_exceptions.InternalServerError as e:
+        # See: https://developers.generativeai.google/guide/troubleshooting
+        logger.error("Gemini API internal server error: %s", str(e))
+        print("\nGemini API is currently experiencing issues. This is a temporary problem with the service.")
+        print("For more information, please visit: https://developers.generativeai.google/guide/troubleshooting")
+        print("Suggested actions:")
+        print("1. Wait a few minutes and try again")
+        print("2. Check the Gemini API status page")
+        print("3. If the problem persists, try simplifying your query")
+        sys.exit(1)
     except Exception as e:
         logger.error("Error executing query: %s", str(e), exc_info=True)
         print(f"Error: {str(e)}", file=sys.stderr)
