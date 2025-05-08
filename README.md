@@ -6,20 +6,48 @@ This project guides you through building a powerful agent-based chatbot using La
 
 ### 1. Basic Chatbot Setup
 #### Environment and Dependencies
-- [ ] Create virtual environment
-- [ ] Install core dependencies:
-  - [ ] langchain
-  - [ ] langgraph
-  - [ ] chainlit
-  - [ ] python-dotenv
-  - [ ] langchain-google-genai
-- [ ] Set up development environment (IDE, linting, etc.)
+- [x] Create virtual environment
+- [x] Install core dependencies:
+  - [x] langchain
+  - [x] langgraph
+  - [x] chainlit
+  - [x] python-dotenv
+  - [x] langchain-google-genai
+- [x] Set up development environment (IDE, linting, etc.)
+
+### Additional Setup Steps Taken
+
+#### Code Quality and Security
+- [x] Added pre-commit hooks:
+  - nbstripout: Strips output from notebooks before commit
+  - ruff: Lightweight Python linter with permissive settings
+    - Line length set to 132 characters
+    - Only basic whitespace and error checks
+    - No import sorting enforced
+  - detect-secrets: Prevents accidental commit of secrets
+    - Baseline scan created
+    - Configured to ignore baseline file
+    - Active monitoring for new secrets
+
+#### Development Environment
+- [x] Configured pyproject.toml with:
+  - Core dependencies and versions
+  - Build system configuration
+  - Development tools configuration
+  - Ruff linter settings
+  - Python version requirements
+
+#### Security Measures
+- [x] Implemented secrets detection
+- [x] Created secrets baseline
+- [x] Added pre-commit hook for ongoing secret detection
+- [x] Configured to prevent accidental API key commits
 
 #### API Configuration
-- [ ] Create `.env` file
-- [ ] Obtain Google API key from AI Studio
-- [ ] Test API key configuration
-- [ ] Implement secure key handling
+- [x] Create `.env` file
+- [x] Obtain Google API key from AI Studio
+- [x] Test API key configuration
+- [x] Implement secure key handling
 
 #### Basic Chatbot Implementation
 - [ ] Create basic `chat_app.py` structure
