@@ -197,3 +197,4 @@ pyrightconfig.json
 /chainlit.md
 /.chainlit/translations/*
 !/.chainlit/translations/nl*.json
+*.sqlite

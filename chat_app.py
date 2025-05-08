@@ -5,6 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain_community.tools import DuckDuckGoSearchRun
+from tools import titanic_tool
 
 # Initialize the LLM with Gemini Pro model
 # See: https://python.langchain.com/docs/integrations/chat/google_generative_ai
@@ -20,8 +21,14 @@ search_tool = DuckDuckGoSearchRun(max_results=3)
 checkpointer = InMemorySaver()  # In-memory conversation history
 agent = create_react_agent(
     model=llm,  # LLM to use for reasoning
-    tools=[search_tool],  # List of tools the agent can use
-    prompt=f"You are a helpful assistant. Today's date is {datetime.now().strftime('%Y-%m-%d')}.",  # System prompt
+    tools=[search_tool, titanic_tool],  # List of tools the agent can use
+    prompt=f"""You are a helpful assistant. Today's date is {datetime.now().strftime('%Y-%m-%d')}.
+    When answering questions:
+    1. Be concise and to the point
+    2. Avoid raw search results or lengthy descriptions
+    3. Focus on the most relevant information
+    4. Use bullet points for multiple data points
+    5. For Titanic-related questions, use the titanic_database tool""",
     checkpointer=checkpointer  # For conversation history
 )
 
@@ -56,8 +63,10 @@ async def on_message(message: cl.Message):
     
     # Add the full response as a separate message for reference
     if full_response:
+        # Format the response in a more readable way
+        formatted_response = full_response.replace("...", "").strip()
         await cl.Message(
-            content=f"Full response:\n```\n{full_response}\n```",
+            content=f"Full response:\n```\n{formatted_response}\n```",
             parent_id=msg.id
         ).send()
     else:
