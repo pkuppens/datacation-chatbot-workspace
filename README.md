@@ -4,169 +4,89 @@ This project guides you through building a powerful agent-based chatbot using La
 
 ## Project Plan
 
-### 1. Basic Chatbot Setup
-#### Environment and Dependencies
-- [x] Create virtual environment
-- [x] Install core dependencies:
-  - [x] langchain
-  - [x] langgraph
-  - [x] chainlit
-  - [x] python-dotenv
-  - [x] langchain-google-genai
-- [x] Set up development environment (IDE, linting, etc.)
+### Part 1: Basic Setup and Integration ✅
+- [x] Environment and dependencies setup
+- [x] Basic chatbot implementation
+- [x] LangGraph integration
+- [x] Streaming response handling
+- [x] Basic tool integration (DuckDuckGo search)
+- [x] Memory and checkpointing
+- [x] Code quality and security measures
 
-### Additional Setup Steps Taken
+### Part 2: Advanced Agent Capabilities 🚀
 
-#### Code Quality and Security
-- [x] Added pre-commit hooks:
-  - nbstripout: Strips output from notebooks before commit
-  - ruff: Lightweight Python linter with permissive settings
-    - Line length set to 132 characters
-    - Only basic whitespace and error checks
-    - No import sorting enforced
-  - detect-secrets: Prevents accidental commit of secrets
-    - Baseline scan created
-    - Configured to ignore baseline file
-    - Active monitoring for new secrets
+#### 1. Enhanced Tool Integration
+- [ ] Implement custom tools:
+  - [ ] Weather tool with structured output
+  - [ ] Calculator with math operations
+  - [ ] File operations tool
+  - [ ] Custom search tool with better formatting
 
-#### Development Environment
-- [x] Configured pyproject.toml with:
-  - Core dependencies and versions
-  - Build system configuration
-  - Development tools configuration
-  - Ruff linter settings
-  - Python version requirements
+#### 2. Improved Response Handling
+- [ ] Implement response formatting:
+  - [ ] Markdown support
+  - [ ] Code block highlighting
+  - [ ] Table formatting
+  - [ ] List formatting
+- [ ] Add response validation
+- [ ] Implement error handling and recovery
 
-#### Security Measures
-- [x] Implemented secrets detection
-- [x] Created secrets baseline
-- [x] Added pre-commit hook for ongoing secret detection
-- [x] Configured to prevent accidental API key commits
+#### 3. Advanced Memory Management
+- [ ] Implement long-term memory:
+  - [ ] File-based storage
+  - [ ] Database integration
+  - [ ] Memory summarization
+- [ ] Add context management:
+  - [ ] Context window optimization
+  - [ ] Relevant memory retrieval
+  - [ ] Memory pruning
 
-#### API Configuration
-- [x] Create `.env` file
-- [x] Obtain Google API key from AI Studio
-- [x] Test API key configuration
-- [x] Implement secure key handling
+#### 4. Agent Reasoning and Planning
+- [ ] Implement ReAct framework:
+  - [ ] Thought process visualization
+  - [ ] Action planning
+  - [ ] Result evaluation
+- [ ] Add multi-step reasoning:
+  - [ ] Break down complex tasks
+  - [ ] Tool chaining
+  - [ ] Result aggregation
 
-#### Basic Chatbot Implementation
-- [ ] Create basic `chat_app.py` structure
-- [ ] Implement `ChatGoogleGenerativeAI` initialization
-- [ ] Set up basic message handling
-- [ ] Test basic conversation flow
+#### 5. User Experience Enhancements
+- [ ] Add interactive elements:
+  - [ ] Buttons for common actions
+  - [ ] File upload support
+  - [ ] Image generation/display
+- [ ] Implement feedback system:
+  - [ ] Response rating
+  - [ ] Error reporting
+  - [ ] Usage analytics
 
-#### Streaming Implementation
-- [ ] Implement `astream` method
-- [ ] Set up `AsyncLangchainCallbackHandler`
-- [ ] Configure response streaming
-- [ ] Test streaming functionality
-
-### 2. LangGraph Integration
-#### Basic Setup
-- [ ] Migrate existing code to LangGraph structure
-- [ ] Set up basic agent configuration
-- [ ] Implement message history handling
-- [ ] Test basic agent functionality
-
-#### Thread Management
-- [ ] Implement thread ID generation
-- [ ] Set up thread-based message history
-- [ ] Configure thread persistence
-- [ ] Test thread management
-
-#### Context Enhancement
-- [ ] Add current date to system prompts
-- [ ] Implement context management
-- [ ] Set up prompt templates
-- [ ] Test context handling
-
-### 3. Response Handling
-#### Async Implementation
-- [ ] Set up async message handling
-- [ ] Implement streaming response processing
-- [ ] Configure metadata handling
-- [ ] Test async functionality
-
-#### Synchronous Fallback
-- [ ] Implement synchronous response handling
-- [ ] Set up fallback mechanisms
-- [ ] Configure response formatting
-- [ ] Test fallback scenarios
-
-### 4. Memory and State Management
-#### Checkpointing
-- [ ] Implement `InMemorySaver`
-- [ ] Configure checkpoint intervals
-- [ ] Set up state recovery
-- [ ] Test checkpoint functionality
-
-#### Session Management
-- [ ] Implement session handling
-- [ ] Configure session persistence
-- [ ] Set up session recovery
-- [ ] Test session management
-
-#### Chainlit Integration
-- [ ] Set up Chainlit configuration
-- [ ] Implement chat history integration
-- [ ] Configure UI elements
-- [ ] Test Chainlit functionality
-
-### 5. Tool Integration
-#### Basic Tools
-- [ ] Implement calculator tool
-- [ ] Set up DuckDuckGo search
-- [ ] Configure tool selection
-- [ ] Test basic tools
-
-#### Advanced Tools
-- [ ] Implement custom tools
-- [ ] Set up tool chaining
-- [ ] Configure tool response handling
-- [ ] Test advanced tools
+#### 6. Testing and Monitoring
+- [ ] Add comprehensive testing:
+  - [ ] Unit tests for tools
+  - [ ] Integration tests
+  - [ ] End-to-end tests
+- [ ] Implement monitoring:
+  - [ ] Performance metrics
+  - [ ] Error tracking
+  - [ ] Usage statistics
 
 ## Quick Implementation Steps
 
-### 1. Initial Setup
-1. Clone the repository
-2. Create virtual environment: `python -m venv .venv`
-3. Activate environment: 
-   - Windows: `.venv\Scripts\activate`
-   - Unix/MacOS: `source .venv/bin/activate`
-4. Install dependencies using uv:
-   ```bash
-   # Install uv if not already installed
-   pip install uv
-   
-   # Install project dependencies
-   uv add -r requirements.txt
-   
-   # Install development dependencies
-   uv add ipykernel -U --force-reinstall --active
-   ```
+### Part 1 (Completed) ✅
+1. Basic setup and configuration
+2. LangGraph integration
+3. Basic tool implementation
+4. Memory management
+5. Security measures
 
-### 2. Configuration
-1. Create `.env` file in project root
-2. Add Google API key: `GOOGLE_API_KEY=your_key_here`
-3. Test configuration with simple script
-
-### 3. Basic Chatbot
-1. Create `chat_app.py`
-2. Implement basic LLM initialization
-3. Add message handling
-4. Test basic conversation
-
-### 4. LangGraph Migration
-1. Update imports to include LangGraph
-2. Modify message handling
-3. Add thread support
-4. Test conversation flow
-
-### 5. Tool Addition
-1. Add calculator tool
-2. Implement search functionality
-3. Test tool integration
-4. Add more tools as needed
+### Part 2 (In Progress) 🚀
+1. Enhanced tool development
+2. Response formatting
+3. Advanced memory
+4. Agent reasoning
+5. UX improvements
+6. Testing framework
 
 ## Project Structure
 ```
@@ -174,7 +94,10 @@ This project guides you through building a powerful agent-based chatbot using La
 ├── .env                    # Environment variables
 ├── chat_app.py            # Main application file
 ├── notebooks/             # Jupyter notebooks for development
-│   └── workshop_part_1.ipynb
+│   ├── workshop_part_1.ipynb
+│   └── workshop_part_2.ipynb
+├── tools/                 # Custom tool implementations
+├── tests/                 # Test suite
 ├── requirements.txt       # Project dependencies
 └── README.md             # This file
 ```
@@ -187,7 +110,7 @@ This project guides you through building a powerful agent-based chatbot using La
 - langchain-google-genai
 
 ## Notes
-- The notebook (`workshop_part_1.ipynb`) is for experimentation
+- The notebooks are for experimentation
 - Final implementation should be in `chat_app.py`
 - Remember to handle API keys securely
 - Consider implementing proper error handling
