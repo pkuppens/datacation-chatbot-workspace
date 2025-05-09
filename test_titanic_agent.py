@@ -2,11 +2,8 @@ import unittest
 import logging
 import json
 from langchain_google_genai import ChatGoogleGenerativeAI
-from tools.pandas_tools import create_pandas_agent
+from tools.titanic_agent import create_titanic_agent
 from google.api_core import exceptions as google_exceptions
-from langchain.agents import AgentExecutor
-from langchain.agents.agent_types import AgentType
-from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from datasets import load_dataset
 from config import config
 
@@ -37,40 +34,8 @@ class TestTitanicAgent(unittest.TestCase):
             convert_system_message_to_human=True
         )
         
-        # Create agent with more explicit configuration
-        cls.agent = create_pandas_dataframe_agent(
-            cls.model,
-            cls.df,
-            verbose=True,
-            agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-            handle_parsing_errors=True,
-            max_iterations=2,  # Limit iterations to avoid long loops
-            max_execution_time=15.0,  # Shorter timeout
-            allow_dangerous_code=True,  # Enable code execution
-            prefix="""You are a data analysis assistant. When analyzing the Titanic dataset:
-1. Use ONLY the python_repl_ast tool
-2. Keep code simple and direct
-3. Always use print() for output
-4. Handle missing values with dropna()
-5. Format numbers with round(x, 2)
-
-Example:
-Action: python_repl_ast
-Action Input: print(len(df))
-
-The dataset has these columns:
-- has_survived: Whether the passenger survived (True/False)
-- passenger_class: Passenger class (1, 2, or 3)
-- name: Passenger name
-- is_male: Whether the passenger is male (True/False)
-- age: Passenger age
-- sibsp: Number of siblings/spouses aboard
-- parch: Number of parents/children aboard
-- ticket: Ticket number
-- fare: Passenger fare
-- cabin: Cabin number
-- embarked: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)"""
-        )
+        # Create agent using the single source of truth
+        cls.agent = create_titanic_agent(cls.model)
         logger.info("Test fixtures setup complete")
 
     def test_01_basic_count(self):
