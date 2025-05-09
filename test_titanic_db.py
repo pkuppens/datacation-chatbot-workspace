@@ -1,69 +1,39 @@
-import sqlite3
+import pandas as pd
+from data_pipeline.titanic_pipeline import get_titanic_data
 
 def test_titanic_queries():
     try:
-        # Connect to the SQLite database
-        conn = sqlite3.connect('titanic.sqlite')
-        cursor = conn.cursor()
+        # Load the data using our pipeline
+        df = get_titanic_data()
         
-        # Test query 1: Get total number of passengers
-        cursor.execute("SELECT COUNT(*) FROM titanic")
-        total_passengers = cursor.fetchone()[0]
-        print(f"\nTotal number of passengers: {total_passengers}")
+        # Test 1: Check if we have data
+        assert len(df) > 0, "Dataset is empty"
+        print(f"\nTotal number of passengers: {len(df)}")
         
-        # Test query 2: Get survival statistics
-        cursor.execute("""
-            SELECT 
-                has_survived,
-                COUNT(*) as count,
-                ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage
-            FROM titanic
-            GROUP BY has_survived
-        """)
+        # Test 2: Get survival statistics
+        survival_stats = df['Survived'].value_counts(normalize=True) * 100
         print("\nSurvival statistics:")
-        for survived, count, percentage in cursor.fetchall():
+        for survived, percentage in survival_stats.items():
             status = "Survived" if survived else "Did not survive"
-            print(f"- {status}: {count} passengers ({percentage}%)")
+            count = len(df[df['Survived'] == survived])
+            print(f"- {status}: {count} passengers ({percentage:.2f}%)")
         
-        # Test query 3: Survival rate by passenger class
-        cursor.execute("""
-            SELECT 
-                passenger_class,
-                COUNT(*) as total,
-                SUM(has_survived) as survived,
-                ROUND(SUM(has_survived) * 100.0 / COUNT(*), 2) as survival_rate
-            FROM titanic
-            GROUP BY passenger_class
-            ORDER BY passenger_class
-        """)
+        # Test 3: Survival rate by passenger class
+        class_stats = df.groupby('Pclass').agg({
+            'Survived': ['count', 'sum', lambda x: (x.sum() / len(x)) * 100]
+        }).round(2)
+        
         print("\nSurvival rate by passenger class:")
-        for p_class, total, survived, rate in cursor.fetchall():
+        for p_class in sorted(df['Pclass'].unique()):
+            stats = class_stats.loc[p_class]
+            total = int(stats[('Survived', 'count')])
+            survived = int(stats[('Survived', 'sum')])
+            rate = float(stats[('Survived', '<lambda_0>')])
             print(f"- Class {p_class}: {survived} out of {total} survived ({rate}%)")
-        
-    except sqlite3.Error as e:
+            
+    except Exception as e:
         print(f"An error occurred: {e}")
-        
-        # Let's check if the table exists
-        try:
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-            tables = cursor.fetchall()
-            print("\nTables in the database:")
-            for table in tables:
-                print(f"- {table[0]}")
-                
-                # Print schema for each table
-                cursor.execute(f"PRAGMA table_info({table[0]})")
-                columns = cursor.fetchall()
-                print("  Columns:")
-                for col in columns:
-                    print(f"  - {col[1]} ({col[2]})")
-        except sqlite3.Error as e2:
-            print(f"Error while checking tables: {e2}")
-    
-    finally:
-        # Close the connection
-        if 'conn' in locals():
-            conn.close()
+        raise
 
 if __name__ == "__main__":
     test_titanic_queries() 
