@@ -5,6 +5,7 @@ from typing import List
 from langchain_google_genai import ChatGoogleGenerativeAI
 from tools.pandas_tools import create_pandas_agent
 from google.api_core import exceptions as google_exceptions
+from config import config
 
 # Configure logging
 logging.basicConfig(
@@ -42,8 +43,11 @@ def main(args: List[str] = None) -> None:
         logger.info("Initializing model and pandas agent...")
         # See: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
         model = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash-preview-04-17",  # Latest Gemini model
-            temperature=0,  # Deterministic output
+            model=config.model.name,
+            temperature=config.model.temperature,
+            max_tokens=config.model.max_tokens,
+            top_p=config.model.top_p,
+            top_k=config.model.top_k,
             convert_system_message_to_human=True  # Required for Gemini
         )
         pandas_agent = create_pandas_agent(model)

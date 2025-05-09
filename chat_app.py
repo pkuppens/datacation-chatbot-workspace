@@ -7,6 +7,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langchain_community.tools import DuckDuckGoSearchRun
 from tools.pandas_tools import create_pandas_agent
 import logging
+from config import config
 
 # Configure logging
 logging.basicConfig(
@@ -17,8 +18,11 @@ logger = logging.getLogger(__name__)
 
 # Initialize the model
 model = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-preview-04-17",
-    temperature=0,
+    model=config.model.name,
+    temperature=config.model.temperature,
+    max_tokens=config.model.max_tokens,
+    top_p=config.model.top_p,
+    top_k=config.model.top_k,
     convert_system_message_to_human=True
 )
 

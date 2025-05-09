@@ -8,6 +8,7 @@ from langchain.agents import AgentExecutor
 from langchain.agents.agent_types import AgentType
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from datasets import load_dataset
+from config import config
 
 # Configure logging
 logging.basicConfig(
@@ -26,12 +27,14 @@ class TestTitanicAgent(unittest.TestCase):
         dataset = load_dataset("mstz/titanic")["train"]
         cls.df = dataset.to_pandas()
         
-        # Initialize model with more conservative settings
+        # Initialize model with configuration settings
         cls.model = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash-preview-04-17",
-            temperature=0,
-            convert_system_message_to_human=True,
-            max_output_tokens=1024  # Reduce output size
+            model=config.model.name,
+            temperature=config.model.temperature,
+            max_tokens=config.model.max_tokens,
+            top_p=config.model.top_p,
+            top_k=config.model.top_k,
+            convert_system_message_to_human=True
         )
         
         # Create agent with more explicit configuration
