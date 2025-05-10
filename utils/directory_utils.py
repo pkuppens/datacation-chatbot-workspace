@@ -1,13 +1,13 @@
-"""Directory management utilities for the application.
+"""Directory and file management utilities for the application.
 
-This module provides functions for managing application directories,
+This module provides functions for managing application directories and files,
 ensuring they exist and are properly configured for the application's needs.
 """
 
 import os
 from pathlib import Path
 from typing import List, Optional
-from utils.logger import logger
+import logging
 
 
 def ensure_directories(base_dir: Optional[Path] = None, dirs: Optional[List[str]] = None, create_parents: bool = True) -> None:
@@ -32,6 +32,8 @@ def ensure_directories(base_dir: Optional[Path] = None, dirs: Optional[List[str]
         This function is idempotent - calling it multiple times with the same
         parameters will not cause any issues.
     """
+    logger = logging.getLogger(__name__)
+
     if base_dir is None:
         base_dir = Path(__file__).parent.parent
 
@@ -46,3 +48,39 @@ def ensure_directories(base_dir: Optional[Path] = None, dirs: Optional[List[str]
         except Exception as e:
             logger.error(f"Failed to create directory {dir_path}: {str(e)}")
             raise
+
+
+def ensure_file(file_path: Path, create_parents: bool = True) -> None:
+    """Ensure a file exists and is writable.
+
+    This function ensures that a file exists and is writable. If the file doesn't exist,
+    it will be created. If the parent directory doesn't exist, it will be created if
+    create_parents is True.
+
+    Args:
+        file_path: Path to the file to ensure exists
+        create_parents: Whether to create parent directories if they don't exist
+
+    Raises:
+        OSError: If the file cannot be created or is not writable
+    """
+    logger = logging.getLogger(__name__)
+
+    try:
+        # Ensure parent directory exists
+        if create_parents:
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Create file if it doesn't exist
+        if not file_path.exists():
+            file_path.touch()
+            logger.debug(f"Created file: {file_path}")
+
+        # Test if file is writable
+        with open(file_path, "a"):
+            pass
+        logger.debug(f"Verified file is writable: {file_path}")
+
+    except Exception as e:
+        logger.error(f"Failed to ensure file {file_path}: {str(e)}")
+        raise

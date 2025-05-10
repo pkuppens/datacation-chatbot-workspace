@@ -8,6 +8,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Optional
+from utils.directory_utils import ensure_file
 
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -78,6 +79,8 @@ def setup_logger(name: str = "datacation", level: int = logging.INFO, log_file: 
 
     # Create file handler if log file is specified
     if log_file:
+        log_path = Path(log_file)
+        ensure_file(log_path)
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)
