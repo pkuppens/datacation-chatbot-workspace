@@ -1,7 +1,7 @@
 [project]
-name = "chatbot-workshop"
-version = "2025.0.0"
-description = "Add your description here"
+name = "datacation-chatbot"
+version = "0.1.0"
+description = "A chatbot for data analysis using Chainlit and LangChain"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -28,6 +28,10 @@ dependencies = [
     "prefect-sqlalchemy>=0.3.0",
     "requests>=2.31.0",
     "pip>=25.1.1",
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.1",
+    "pytest-env>=1.1.1",
 ]
 
 [project.scripts]
@@ -50,16 +54,77 @@ dev = [
 ]
 
 [tool.ruff]
+# Exclude a variety of commonly ignored directories
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Keep original line length
 line-length = 132
 target-version = "py311"
+
+[tool.ruff.lint]
+# Basic error and warning checks only
 select = ["E", "W"]
-ignore = ["E501"]
+ignore = ["E501"]  # Ignore line length errors
+
+# Allow autofix for warnings
 fixable = ["W"]
 
 [tool.ruff.format]
+# Use double quotes for strings
 quote-style = "double"
+
+# Indent with spaces, rather than tabs
 indent-style = "space"
+
+# Respect magic trailing commas
+skip-magic-trailing-comma = false
+
+# Respect line endings
 line-ending = "auto"
-skip-magic-trailing-comma = true
-docstring-code-format = false
-docstring-code-line-length = "dynamic"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--showlocals",
+    "--tb=short",
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "llm: marks tests that require LLM API access (use '-m llm' to run)",
+    "cli: marks tests that can be run from command line",
+    "data: marks tests that require data files",
+    "api: marks tests that make external API calls",
+    "db: marks tests that require database access",
+]
