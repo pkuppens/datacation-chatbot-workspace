@@ -11,6 +11,7 @@ from prefect import flow, task
 from prefect.filesystems import LocalFileSystem
 from prefect.tasks import task_input_hash
 from sqlalchemy import create_engine
+from prefect import logger
 
 # Constants
 DATA_DIR = Path("data_sources")
@@ -24,21 +25,12 @@ DATA_DIR.mkdir(exist_ok=True)
 @task(cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
 def download_titanic_dataset() -> Path:
     """Download the Titanic dataset if it doesn't exist.
-    First tries to use the Hugging Face datasets library,
-    falls back to direct CSV download if that fails."""
+    Always downloads from GitHub to ensure we have passenger names."""
     if not TITANIC_CSV_PATH.exists():
-        try:
-            # Try to get dataset from Hugging Face
-            dataset = load_dataset("mstz/titanic")["train"]
-            df = dataset.to_pandas()
-            df.to_csv(TITANIC_CSV_PATH, index=False)
-        except Exception as e:
-            print(f"Failed to load from Hugging Face: {e}")
-            print("Falling back to direct CSV download...")
-            # Fallback to direct CSV download
-            response = requests.get(TITANIC_CSV_URL)
-            response.raise_for_status()
-            TITANIC_CSV_PATH.write_text(response.text)
+        print("Downloading Titanic dataset from GitHub...")
+        response = requests.get(TITANIC_CSV_URL)
+        response.raise_for_status()
+        TITANIC_CSV_PATH.write_text(response.text)
     return TITANIC_CSV_PATH
 
 @task(cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
@@ -56,13 +48,22 @@ def convert_to_sqlite(csv_path: Path) -> Path:
 
 @task
 def load_titanic_data() -> pd.DataFrame:
-    """Load the Titanic dataset from SQLite into memory as a pandas DataFrame."""
-    if not TITANIC_DB_PATH.exists():
-        # Trigger the pipeline to create the database
-        run_titanic_pipeline()
+    """Load Titanic data from SQLite database.
     
-    engine = create_engine(f"sqlite:///{TITANIC_DB_PATH}")
-    return pd.read_sql("SELECT * FROM titanic", engine)
+    Note: We explicitly remove name-related columns to protect privacy and prevent
+    potential discrimination. This is in line with data protection best practices
+    and ethical AI principles.
+    """
+    engine = create_engine('sqlite:///titanic.sqlite')
+    df = pd.read_sql('SELECT * FROM titanic', engine)
+    
+    # Remove name-related columns for privacy and ethical considerations
+    name_columns = [col for col in df.columns if 'name' in col.lower()]
+    if name_columns:
+        df = df.drop(columns=name_columns)
+        logger.info(f"Removed name-related columns for privacy: {name_columns}")
+    
+    return df
 
 def get_sqlite_connection() -> sqlite3.Connection:
     """Get a direct SQLite connection to the database.

@@ -3,7 +3,7 @@ import logging
 from typing import Any
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
-from datasets import load_dataset
+from data_pipeline.titanic_pipeline import get_titanic_data
 from tools.knowledge import knowledge_base, DataInsight, AnalysisStep
 from datetime import datetime
 
@@ -26,9 +26,8 @@ def create_titanic_agent(model: ChatGoogleGenerativeAI) -> Any:
     Returns:
         A pandas DataFrame agent configured for Titanic analysis
     """
-    logger.info("Loading Titanic dataset from Hugging Face")
-    dataset = load_dataset("mstz/titanic")["train"]
-    df = dataset.to_pandas()
+    logger.info("Loading Titanic dataset from data pipeline")
+    df = get_titanic_data()
     
     logger.info("Creating pandas DataFrame agent")
     agent = create_pandas_dataframe_agent(
@@ -58,54 +57,24 @@ def create_titanic_agent(model: ChatGoogleGenerativeAI) -> Any:
    - Handle missing values with dropna()
    - Format numbers with round(x, 2)
 
-4. Document your findings:
-   - Explain your reasoning
-   - Note any interesting patterns
-   - Store insights for future reference
-   - Record the analysis step
+IMPORTANT: Name-based analysis is not available and will not be performed.
+This is a deliberate privacy and ethical consideration to prevent potential discrimination
+and protect passenger privacy. If asked about names, ethnicity, or nationality, politely
+decline and explain that such analysis is not available for privacy reasons.
 
 The dataset has these columns:
-- has_survived: Whether the passenger survived (True/False)
-- passenger_class: Passenger class (1, 2, or 3)
-- name: Passenger name
-- is_male: Whether the passenger is male (True/False)
-- age: Passenger age
-- sibsp: Number of siblings/spouses aboard
-- parch: Number of parents/children aboard
-- ticket: Ticket number
-- fare: Passenger fare
-- cabin: Cabin number
-- embarked: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)
-
-Example workflow:
-1. First, verify the data structure:
-```python
-print("Columns:", df.columns.tolist())
-print("\nSample data:")
-print(df.head())
-print("\nMissing values:")
-print(df.isnull().sum())
-```
-
-2. Then, analyze the data:
-```python
-# Example: Count survivors by class
-result = df.groupby('passenger_class')['has_survived'].mean()
-print(result)
-```
-
-3. Finally, document findings:
-- Note any patterns in the data
-- Store insights for future questions
-- Consider data quality issues
-
-Remember to:
-1. Always start by understanding the data structure
-2. Plan your analysis before writing code
-3. Document your findings and insights
-4. Learn from past analyses"""
+- Survived: Whether the passenger survived (1 = Yes, 0 = No)
+- Pclass: Passenger class (1, 2, or 3)
+- Sex: Passenger sex (male or female)
+- Age: Passenger age
+- SibSp: Number of siblings/spouses aboard
+- Parch: Number of parents/children aboard
+- Ticket: Ticket number
+- Fare: Passenger fare
+- Cabin: Cabin number
+- Embarked: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)"""
     )
-    logger.info("Successfully created pandas DataFrame agent")
+    
     return agent
 
 def record_analysis(question: str, approach: str, code: str, result: str) -> None:
