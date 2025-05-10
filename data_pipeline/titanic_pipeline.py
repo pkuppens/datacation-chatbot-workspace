@@ -11,7 +11,7 @@ from prefect import flow, task
 from prefect.filesystems import LocalFileSystem
 from prefect.tasks import task_input_hash
 from sqlalchemy import create_engine
-from prefect import logger
+from prefect.logging import get_run_logger
 
 # Constants
 DATA_DIR = Path("data_sources")
@@ -54,14 +54,14 @@ def load_titanic_data() -> pd.DataFrame:
     potential discrimination. This is in line with data protection best practices
     and ethical AI principles.
     """
-    engine = create_engine('sqlite:///titanic.sqlite')
+    engine = create_engine(f'sqlite:///{TITANIC_DB_PATH}')
     df = pd.read_sql('SELECT * FROM titanic', engine)
     
     # Remove name-related columns for privacy and ethical considerations
     name_columns = [col for col in df.columns if 'name' in col.lower()]
     if name_columns:
         df = df.drop(columns=name_columns)
-        logger.info(f"Removed name-related columns for privacy: {name_columns}")
+        get_run_logger().info(f"Removed name-related columns for privacy: {name_columns}")
     
     return df
 
