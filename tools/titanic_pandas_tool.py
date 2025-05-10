@@ -6,11 +6,9 @@ from datasets import load_dataset
 from pydantic import Field
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 class TitanicPandasTool(BaseTool):
     name: str = "titanic_pandas"
@@ -52,10 +50,10 @@ You can perform any analysis on this data, including but not limited to:
 The tool will automatically handle missing values and provide appropriate statistical methods for your analysis.
 """
     df: pd.DataFrame = Field(default=None, exclude=True)
-    
+
     def __init__(self):
         logger.info("Initializing TitanicPandasTool...")
-        
+
         # Load the Titanic dataset directly from Hugging Face
         logger.info("Loading Titanic dataset from Hugging Face...")
         dataset = load_dataset("mstz/titanic")["train"]
@@ -63,16 +61,16 @@ The tool will automatically handle missing values and provide appropriate statis
         self.df = dataset.to_pandas()
         logger.info(f"Dataset loaded successfully with {len(self.df)} rows")
         logger.info(f"Dataset columns: {list(self.df.columns)}")  # Debug print
-        
+
         # Calculate key statistics for the description
         logger.info("Calculating dataset statistics...")
         total_passengers = len(self.df)
-        survival_rate = (self.df['has_survived'].mean() * 100)
-        avg_age = self.df['age'].mean()
-        avg_fare = self.df['fare'].mean()
-        class_dist = self.df['passenger_class'].value_counts().to_dict()
+        survival_rate = self.df["has_survived"].mean() * 100
+        avg_age = self.df["age"].mean()
+        avg_fare = self.df["fare"].mean()
+        class_dist = self.df["passenger_class"].value_counts().to_dict()
         logger.info("Statistics calculated successfully")
-        
+
         # Update the description with actual statistics
         logger.info("Updating tool description with calculated statistics...")
         self.description = self.description.format(
@@ -81,31 +79,32 @@ The tool will automatically handle missing values and provide appropriate statis
             survival_rate=survival_rate,
             avg_age=avg_age,
             avg_fare=avg_fare,
-            class_dist=class_dist
+            class_dist=class_dist,
         )
-        
+
         logger.info("TitanicPandasTool initialization complete")
-    
+
     def _run(self, query: str) -> str:
         """Execute the query and return results as a string."""
         try:
             logger.info(f"Processing query: {query}")
-            
+
             # Handle specific queries
             if "average age" in query.lower() and "survivors" in query.lower():
-                result = self.df.loc[self.df['has_survived'] == True, 'age'].mean()
+                result = self.df.loc[self.df["has_survived"] == True, "age"].mean()
                 return f"The average age of survivors is {result:.2f} years"
-            
+
             # For other queries, return an error message
             return "I'm sorry, I can only handle specific queries about the Titanic dataset at the moment. Please try asking about average age of survivors."
-            
+
         except Exception as e:
             logger.error(f"Error executing query: {str(e)}", exc_info=True)
             raise
-    
+
     async def _arun(self, query: str) -> str:
         """Async implementation of _run."""
         return self._run(query)
 
+
 # Create a singleton instance
-titanic_pandas_tool = TitanicPandasTool() 
+titanic_pandas_tool = TitanicPandasTool()

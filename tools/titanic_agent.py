@@ -1,4 +1,5 @@
 """Titanic agent module - single source of truth for Titanic dataset analysis."""
+
 import logging
 from typing import Any
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -8,27 +9,25 @@ from tools.knowledge import knowledge_base, DataInsight, AnalysisStep
 from datetime import datetime
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 def create_titanic_agent(model: ChatGoogleGenerativeAI) -> Any:
     """Create a pandas DataFrame agent for Titanic dataset analysis.
-    
+
     This is the single source of truth for creating the Titanic analysis agent.
     All other modules should use this function to create the agent.
-    
+
     Args:
         model: The language model to use for reasoning
-        
+
     Returns:
         A pandas DataFrame agent configured for Titanic analysis
     """
     logger.info("Loading Titanic dataset from data pipeline")
     df = get_titanic_data()
-    
+
     logger.info("Creating pandas DataFrame agent")
     agent = create_pandas_dataframe_agent(
         model,
@@ -72,14 +71,15 @@ The dataset has these columns:
 - Ticket: Ticket number
 - Fare: Passenger fare
 - Cabin: Cabin number
-- Embarked: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)"""
+- Embarked: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)""",
     )
-    
+
     return agent
+
 
 def record_analysis(question: str, approach: str, code: str, result: str) -> None:
     """Record an analysis step in the knowledge base.
-    
+
     Args:
         question: The question being analyzed
         approach: The approach taken
@@ -94,18 +94,13 @@ def record_analysis(question: str, approach: str, code: str, result: str) -> Non
             description="Column names and data types",
             evidence=code,
             confidence=1.0,
-            source="direct_analysis"
+            source="direct_analysis",
         )
     ]
-    
+
     # Record the analysis step
     step = AnalysisStep(
-        timestamp=datetime.now().isoformat(),
-        question=question,
-        approach=approach,
-        code=code,
-        result=result,
-        insights=insights
+        timestamp=datetime.now().isoformat(), question=question, approach=approach, code=code, result=result, insights=insights
     )
-    
-    knowledge_base.record_analysis(step) 
+
+    knowledge_base.record_analysis(step)
