@@ -1,31 +1,29 @@
-import os
+"""Command line interface for Titanic dataset analysis.
+
+This script provides a command-line interface for analyzing the Titanic dataset
+using the project's data analysis tools. It focuses specifically on data analysis
+capabilities and does not handle general queries about the Titanic.
+"""
+
 import sys
-import logging
-from typing import Optional
+from typing import List, Optional
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
+
 from tools.titanic_agent import create_titanic_agent, record_analysis
 from tools.knowledge import knowledge_base
 from config import config
+from utils.logger import setup_logger
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
-
-
-def get_api_key() -> str:
-    """Get the Google API key from environment variables."""
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise ValueError("GOOGLE_API_KEY environment variable not set")
-    return api_key
+# Set up project-wide logger
+logger = setup_logger(name="titanic_data_analyst_cli", log_file="logs/titanic_data_analyst_cli.log")
 
 
 def create_model() -> ChatGoogleGenerativeAI:
     """Create and configure the language model."""
     return ChatGoogleGenerativeAI(
         model=config.model.name,
-        google_api_key=get_api_key(),
+        google_api_key=config.google_api_key,
         temperature=config.model.temperature,
         max_tokens=config.model.max_tokens,
         top_p=config.model.top_p,
@@ -34,22 +32,25 @@ def create_model() -> ChatGoogleGenerativeAI:
     )
 
 
-def main(question: Optional[str] = None) -> None:
-    """Main function to run the Titanic analysis CLI.
+def main(args: Optional[List[str]] = None) -> None:
+    """Main function to run the Titanic data analysis CLI.
 
     Args:
-        question: Optional question to analyze. If not provided, will prompt user.
+        args: Optional list of command line arguments. If not provided, sys.argv[1:] is used.
     """
     try:
         # Load environment variables
         load_dotenv()
+
+        if args is None:
+            args = sys.argv[1:]
 
         # Create model and agent
         model = create_model()
         agent = create_titanic_agent(model)
 
         # Get question from user if not provided
-        if not question:
+        if not args:
             print("\nTitanic Dataset Analysis CLI")
             print("Enter your question about the Titanic dataset (or 'quit' to exit)")
             question = input("\nQuestion: ").strip()
@@ -57,8 +58,11 @@ def main(question: Optional[str] = None) -> None:
             if question.lower() == "quit":
                 print("Goodbye!")
                 return
+        else:
+            question = " ".join(args)
 
         # Run the analysis
+        logger.info(f"Processing query: {question}")
         print("\nAnalyzing...")
         result = agent.run(question)
 

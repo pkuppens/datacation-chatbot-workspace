@@ -199,4 +199,5 @@ pyrightconfig.json
 !/.chainlit/translations/nl*.json
 *.sqlite
 data_sources/
-/logs/ 
+/logs/
+/knowledge/ 

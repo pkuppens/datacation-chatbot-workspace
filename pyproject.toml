@@ -37,7 +37,7 @@ dependencies = [
 [project.scripts]
 chat = "chat_app:main"
 test-titanic = "test_titanic_db:test_titanic_queries"
-titanic = "tools.titanic_cli:main"
+titanic-data-analyst-cli = "scripts.titanic_data_analyst_cli:main"
 titanic-pipeline = "data_pipeline.titanic_pipeline:main"
 test-gemini-500 = "test_gemini_api_500:main"
 
