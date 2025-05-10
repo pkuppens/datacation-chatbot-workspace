@@ -2,9 +2,11 @@
 
 ## What is Prefect?
 
-Prefect is a modern workflow orchestration tool that helps you build, schedule, and monitor data pipelines. It's particularly well-suited for data engineering tasks and provides a robust framework for managing complex workflows.
+Prefect is a modern workflow orchestration tool that helps you build, schedule, and monitor data pipelines.
+It's particularly well-suited for data engineering tasks and provides a robust framework for managing complex workflows.
 
 Key features include:
+
 - Task and flow management
 - Caching and retries
 - Error handling
@@ -13,6 +15,7 @@ Key features include:
 - Cloud-native deployment options
 
 For more information, visit:
+
 - [Prefect Documentation](https://docs.prefect.io/)
 - [Prefect GitHub Repository](https://github.com/PrefectHQ/prefect)
 
@@ -33,6 +36,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
    - Tasks can pass data to other tasks
 
    Example from our project:
+
    ```python
    @task(cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
    def download_titanic_dataset() -> Path:
@@ -50,6 +54,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
                TITANIC_CSV_PATH.write_text(response.text)
        return TITANIC_CSV_PATH
    ```
+
    This task:
    - Has a single responsibility: downloading the dataset
    - Returns a Path object that other tasks can use
@@ -63,6 +68,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
    - They can be scheduled, monitored, and versioned
 
    Example from our project:
+
    ```python
    @flow(name="Titanic Data Pipeline")
    def run_titanic_pipeline() -> Path:
@@ -75,6 +81,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
        
        return db_path
    ```
+
    This flow:
    - Defines the sequence of operations
    - Passes data between tasks (csv_path → convert_to_sqlite)
@@ -82,6 +89,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
    - Returns the final result
 
 3. **How They Work Together**
+
    ```python
    # Task 1: Download data
    @task
@@ -125,6 +133,7 @@ Tasks and Flows are the fundamental building blocks of Prefect workflows:
 ### Pipeline Structure
 
 Our Titanic pipeline consists of three main tasks:
+
 1. `download_titanic_dataset`: Downloads data from Hugging Face or falls back to direct CSV
 2. `convert_to_sqlite`: Converts the CSV to SQLite database
 3. `load_titanic_data`: Loads the data into memory as a pandas DataFrame
@@ -149,6 +158,7 @@ The introduction of Prefect in our project has enabled a clean separation betwee
    - Doesn't need to know about data pipeline implementation details
 
 This separation allows us to:
+
 - Modify the data pipeline without touching the LLM code
 - Update the LLM implementation without affecting data handling
 - Test each layer independently
@@ -159,6 +169,7 @@ This separation allows us to:
 During development, the pipeline updates automatically when source files change:
 
 1. **Local Development**
+
    ```python
    # Changes to data_pipeline/titanic_pipeline.py
    # are automatically picked up by Prefect
@@ -177,10 +188,12 @@ During development, the pipeline updates automatically when source files change:
    - Cache expiration (1 hour in our case) provides a safety net
 
 3. **Testing Changes**
+
    ```bash
    # Run the pipeline to test changes
    uv run titanic-pipeline
    ```
+
    - Immediate feedback on pipeline changes
    - Clear error messages if something goes wrong
    - Easy to verify data transformations
@@ -191,6 +204,7 @@ During development, the pipeline updates automatically when source files change:
    - Cache can be cleared if needed
 
 This development workflow makes it easy to:
+
 - Iterate quickly on data pipeline changes
 - Test modifications without complex setup
 - Maintain data consistency
@@ -206,25 +220,30 @@ This development workflow makes it easy to:
    - Set up monitoring and alerts for pipeline failures
 
 2. **State Management**
+
    ```python
    from prefect.states import State
    from prefect.artifacts import create_markdown_artifact
    ```
+
    - Track pipeline state changes
    - Create artifacts for pipeline results
    - Implement state-based retries
 
 3. **Parallel Execution**
+
    ```python
    @task(retries=3, retry_delay_seconds=60)
    def process_data_chunk(chunk):
        # Process data in parallel
    ```
+
    - Process large datasets in parallel
    - Implement chunked processing for better performance
    - Use task mapping for parallel execution
 
 4. **Monitoring and Logging**
+
    ```python
    from prefect.logging import get_run_logger
    
@@ -233,20 +252,24 @@ This development workflow makes it easy to:
        logger = get_run_logger()
        logger.info("Task started")
    ```
+
    - Implement detailed logging
    - Set up monitoring dashboards
    - Create custom metrics for pipeline performance
 
 5. **Storage and Caching**
+
    ```python
    from prefect.filesystems import LocalFileSystem
    from prefect.storage import FileSystem
    ```
+
    - Use different storage backends (S3, GCS, etc.)
    - Implement distributed caching
    - Set up result storage for long-running tasks
 
 6. **API Integration**
+
    ```python
    from prefect.client import get_client
    
@@ -254,6 +277,7 @@ This development workflow makes it easy to:
        async with get_client() as client:
            # Interact with Prefect API
    ```
+
    - Create API endpoints for pipeline control
    - Implement webhooks for pipeline events
    - Build custom UI components
@@ -280,12 +304,14 @@ This development workflow makes it easy to:
 To start using Prefect in your own tasks:
 
 1. Import the necessary components:
+
    ```python
    from prefect import task, flow
    from datetime import timedelta
    ```
 
 2. Define your tasks:
+
    ```python
    @task(cache_key_fn=task_input_hash, cache_expiration=timedelta(hours=1))
    def your_task():
@@ -293,6 +319,7 @@ To start using Prefect in your own tasks:
    ```
 
 3. Create your flow:
+
    ```python
    @flow(name="Your Flow Name")
    def your_flow():
@@ -300,9 +327,10 @@ To start using Prefect in your own tasks:
    ```
 
 4. Run your flow:
+
    ```python
    if __name__ == "__main__":
        your_flow()
    ```
 
-For more detailed examples and best practices, refer to the [Prefect documentation](https://docs.prefect.io/). 
+For more detailed examples and best practices, refer to the [Prefect documentation](https://docs.prefect.io/).

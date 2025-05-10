@@ -1,19 +1,25 @@
 # Chainlit Documentation
 
 ## Purpose
-This document explains how Chainlit is used in the Datacation Chatbot project, specifically focusing on the implementation of the chat interface and UI components. It serves as a project-specific guide and reference for developers working on this codebase.
+
+This document explains how Chainlit is used in the Datacation Chatbot project, specifically focusing on the implementation of the
+chat interface and UI components. It serves as a project-specific guide and reference for developers working on this codebase.
 
 ## References
+
 - [Chainlit Official Documentation](https://docs.chainlit.io/)
 - [Chainlit GitHub Repository](https://github.com/chainlit/chainlit)
 - [Chainlit Discord Community](https://discord.gg/chainlit)
 
 ## Overview
-Chainlit is a framework for building conversational AI applications. It provides a modern UI for chat interfaces and integrates well with LangChain and other AI frameworks. This project uses Chainlit version 2.5.5.
+
+Chainlit is a framework for building conversational AI applications. It provides a modern UI for chat interfaces and integrates
+well with LangChain and other AI frameworks. This project uses Chainlit version 2.5.5.
 
 ## Project Requirements
 
 ### Version and Dependencies
+
 ```bash
 # Update Chainlit and dependencies
 uv add -U chainlit
@@ -46,57 +52,60 @@ uv add -U chainlit
 ### Component Usage Examples
 
 1. **Multiple Text Elements in a Message**
-```python
-# Create a message with multiple text elements
-msg = cl.Message(
-    content="**Analysis Results**",
-    author="System",
-    elements=[
-        cl.Text(content="Input tokens: 100"),
-        cl.Text(content="Output tokens: 50"),
-        cl.Text(content="Total tokens: 150")
-    ]
-)
-await msg.send()
 
-# Update specific elements
-msg.elements[0].content = "Input tokens: 200"
-await msg.update()
-```
+   ```python
+   # Create a message with multiple text elements
+   msg = cl.Message(
+       content="**Analysis Results**",
+       author="System",
+       elements=[
+           cl.Text(content="Input tokens: 100"),
+           cl.Text(content="Output tokens: 50"),
+           cl.Text(content="Total tokens: 150")
+       ]
+   )
+   await msg.send()
 
-2. **Referencing and Updating Messages**
-```python
-# Create and store reference to message
-thinking_msg = cl.Message(content="**Thinking...**", author="Assistant")
-await thinking_msg.send()
+   # Update specific elements
+   msg.elements[0].content = "Input tokens: 200"
+   await msg.update()
+   ```
 
-# Update the message later
-await thinking_msg.update(content="**Thinking...**\nProcessing data...")
+1. **Referencing and Updating Messages**
 
-# Create multiple messages
-status_msg = cl.Message(content="**Status**", author="System")
-await status_msg.send()
+   ```python
+   # Create and store reference to message
+   thinking_msg = cl.Message(content="**Thinking...**", author="Assistant")
+   await thinking_msg.send()
 
-# Update both messages
-await thinking_msg.update(content="**Complete**")
-await status_msg.update(content="**Analysis Finished**")
-```
+   # Update the message later
+   await thinking_msg.update(content="**Thinking...**\nProcessing data...")
 
-3. **Structured Content with Elements**
-```python
-# Create a message with structured content
-await cl.Message(
-    content="**Technical Details**",
-    author="System",
-    elements=[
-        cl.Text(content="**Token Usage**"),
-        cl.Text(content="Input: 100"),
-        cl.Text(content="Output: 50"),
-        cl.Text(content="**Tools Used**"),
-        cl.Text(content="• pandas_analysis")
-    ]
-).send()
-```
+   # Create multiple messages
+   status_msg = cl.Message(content="**Status**", author="System")
+   await status_msg.send()
+
+   # Update both messages
+   await thinking_msg.update(content="**Complete**")
+   await status_msg.update(content="**Analysis Finished**")
+   ```
+
+1. **Structured Content with Elements**
+
+   ```python
+   # Create a message with structured content
+   await cl.Message(
+       content="**Technical Details**",
+       author="System",
+       elements=[
+           cl.Text(content="**Token Usage**"),
+           cl.Text(content="Input: 100"),
+           cl.Text(content="Output: 50"),
+           cl.Text(content="**Tools Used**"),
+           cl.Text(content="• pandas_analysis")
+       ]
+   ).send()
+   ```
 
 ## Best Practices
 
@@ -121,6 +130,7 @@ await cl.Message(
 ## Version-Specific Notes
 
 ### Chainlit 2.5.5
+
 - No native sidebar component available
 - Use message elements for structured content
 - Actions and selects for interactivity
@@ -128,6 +138,7 @@ await cl.Message(
 - Streaming for real-time updates
 
 ### Known Limitations
+
 - No native sidebar component
 - Limited styling options
 - No native progress bars
@@ -137,21 +148,27 @@ await cl.Message(
 ## Alternative Approaches
 
 ### For Technical Details
+
 Instead of a sidebar, use:
+
 1. Collapsible sections in messages
 2. Separate messages for different types of information
 3. Message elements for structured content
 
 ### For Progress Indicators
+
 Use:
+
 1. Message updates
 2. Streaming content
 3. Status messages
 4. Clear section headers
 
 ### For Interactive Elements
+
 Use:
+
 1. Action buttons for common operations
 2. Select dropdowns for choices
 3. Input fields for user data
-4. Message elements for structured content 
+4. Message elements for structured content

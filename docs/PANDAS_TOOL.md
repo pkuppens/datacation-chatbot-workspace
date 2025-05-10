@@ -1,9 +1,12 @@
 # LangChain Pandas Tool Documentation
 
 ## Overview
-LangChain provides a pandas DataFrame agent through the `langchain_experimental` package. This agent enables natural language interaction with pandas DataFrames and is optimized for question answering.
 
-**Note**: This agent calls the Python agent under the hood, which executes LLM generated Python code. Use cautiously as this can be harmful if the generated code is malicious.
+LangChain provides a pandas DataFrame agent through the `langchain_experimental` package. This agent enables natural language
+interaction with pandas DataFrames and is optimized for question answering.
+
+**Note**: This agent calls the Python agent under the hood, which executes LLM generated Python code. Use cautiously as this can be
+harmful if the generated code is malicious.
 
 ## Package Installation
 
@@ -17,15 +20,18 @@ uv add --active pandas>=2.2.3
 
 ## Implementation
 
-The pandas DataFrame agent is available in `langchain_experimental.agents.agent_toolkits` and provides a simple way to interact with DataFrames using natural language.
+The pandas DataFrame agent is available in `langchain_experimental.agents.agent_toolkits` and provides a simple way to interact
+with DataFrames using natural language.
 
 ### Key Features
+
 - Natural language to pandas operations translation
 - Built-in error handling
 - Support for multiple DataFrames
 - Integration with LangChain's agent framework
 
 ### Example Implementation
+
 ```python
 from langchain.agents.agent_types import AgentType
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
@@ -80,11 +86,13 @@ response = agent.invoke("how many rows in the age column are different?")
 The pandas DataFrame agent is designed with data safety in mind:
 
 ### Safety Features
+
 1. **Read-Only Operations**: By default, the agent performs read-only operations on DataFrames
 2. **Data Copying**: Agent works on copies of the DataFrames, not the original data
 3. **Operation Restrictions**: Certain operations (like `drop`, `delete`, etc.) are restricted
 
 ### Example of Safety Measures
+
 ```python
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 import pandas as pd
@@ -114,13 +122,16 @@ agent = create_pandas_dataframe_agent(
 ## Migration Plan
 
 ### Phase 1: Setup and Dependencies
+
 1. Install required packages:
+
    ```bash
    uv add --active langchain-experimental>=0.0.49
    uv add --active pandas>=2.2.3
    ```
 
 2. Create new agent implementation:
+
    ```python
    # tools/pandas_tools.py
    from langchain.agents.agent_types import AgentType
@@ -142,7 +153,9 @@ agent = create_pandas_dataframe_agent(
    ```
 
 ### Phase 2: Integration
+
 1. Update `chat_app.py`:
+
    ```python
    from tools.pandas_tools import create_pandas_agent
 
@@ -151,6 +164,7 @@ agent = create_pandas_dataframe_agent(
    ```
 
 ### Phase 3: Testing and Validation
+
 1. Test basic operations:
    - DataFrame filtering
    - Statistical calculations
@@ -162,6 +176,7 @@ agent = create_pandas_dataframe_agent(
    - Check performance
 
 ### Phase 4: Cleanup
+
 1. Remove old implementation:
    - Delete `tools/titanic_pandas_tool.py`
    - Update imports in affected files
@@ -194,4 +209,4 @@ agent = create_pandas_dataframe_agent(
 - [LangChain Pandas Tools Documentation](https://python.langchain.com/docs/integrations/tools/pandas)
 - [Pandas Documentation](https://pandas.pydata.org/docs/)
 - [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [LangChain Community Tools](https://python.langchain.com/docs/integrations/tools/) 
+- [LangChain Community Tools](https://python.langchain.com/docs/integrations/tools/)

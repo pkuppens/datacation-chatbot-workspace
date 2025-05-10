@@ -91,7 +91,7 @@ The tool will automatically handle missing values and provide appropriate statis
 
             # Handle specific queries
             if "average age" in query.lower() and "survivors" in query.lower():
-                result = self.df.loc[self.df["has_survived"] == True, "age"].mean()
+                result = self.df.loc[self.df["has_survived"], "age"].mean()
                 return f"The average age of survivors is {result:.2f} years"
 
             # For other queries, return an error message

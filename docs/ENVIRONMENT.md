@@ -3,6 +3,7 @@
 ## Overview
 
 This project uses environment variables for configuration management. This approach:
+
 - Keeps sensitive information secure
 - Makes configuration flexible across different environments
 - Follows the twelve-factor app methodology
@@ -11,6 +12,7 @@ This project uses environment variables for configuration management. This appro
 ## Setup
 
 1. Copy the example environment file:
+
    ```bash
    cp env.example .env
    ```
@@ -28,13 +30,17 @@ This project uses environment variables for configuration management. This appro
 ## Configuration Categories
 
 ### 1. API Keys and Secrets
+
 These are sensitive credentials that must be kept secure:
+
 - `GOOGLE_API_KEY`: Required for Gemini/Vertex AI access
 - `OPENAI_API_KEY`: Optional, for OpenAI model access
 - `HUGGINGFACE_API_KEY`: Optional, for HuggingFace model access
 
 ### 2. Model Configuration
+
 Settings that control the behavior of language models:
+
 - `MODEL_NAME`: The specific model to use (e.g., gemini-pro)
 - `MODEL_TEMPERATURE`: Controls response randomness (0.0-1.0)
 - `MODEL_MAX_TOKENS`: Maximum length of model responses
@@ -42,20 +48,26 @@ Settings that control the behavior of language models:
 - `MODEL_TOP_K`: Top-k sampling parameter
 
 ### 3. Data Pipeline Settings
+
 Configuration for the Prefect-based data pipeline:
+
 - `DATA_CACHE_EXPIRATION`: How long to cache data (seconds)
 - `DATA_SOURCES_DIR`: Where to store datasets
 - `TITANIC_DB_NAME`: Name of the SQLite database
 
 ### 4. Application Settings
+
 General application configuration:
+
 - `DEBUG`: Enable debug mode
 - `LOG_LEVEL`: Control logging verbosity
 - `PORT`: Web interface port
 - `HOST`: Web interface host
 
 ### 5. Database Settings
+
 Configuration for database connections:
+
 - `DB_HOST`: Database server host
 - `DB_PORT`: Database server port
 - `DB_NAME`: Database name
@@ -63,13 +75,17 @@ Configuration for database connections:
 - `DB_PASSWORD`: Database password
 
 ### 6. Feature Flags
+
 Toggle specific features:
+
 - `ENABLE_VECTOR_STORE`: Enable vector storage
 - `ENABLE_MEMORY`: Enable conversation memory
 - `ENABLE_STREAMING`: Enable streaming responses
 
 ### 7. Cache Settings
+
 Configuration for caching:
+
 - `CACHE_TYPE`: Type of cache to use
 - `CACHE_TTL`: Cache time-to-live
 
@@ -140,4 +156,4 @@ When adding new environment variables:
 
 3. Add validation in code
 
-4. Test in different environments 
+4. Test in different environments

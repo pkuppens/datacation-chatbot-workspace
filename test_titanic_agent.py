@@ -74,7 +74,7 @@ class TestTitanicAgent(unittest.TestCase):
         """Test a simple filtering operation."""
         try:
             # Direct DataFrame operation to get ground truth
-            survivors = self.df[self.df["has_survived"] == True]
+            survivors = self.df[self.df["has_survived"]]
             actual_count = len(survivors)
             logger.info(f"Actual survivor count: {actual_count}")
 
