@@ -113,6 +113,12 @@ addopts = [
     "--verbose",
     "--showlocals",
     "--tb=short",
+    # Coverage settings are commented out as they're not essential for this project
+    # and can interfere with more important test output. Enable when coverage
+    # becomes a priority.
+    # "--cov=.",
+    # "--cov-report=term-missing",
+    # "--cov-report=html",
 ]
 log_cli = true
 log_cli_level = "INFO"
