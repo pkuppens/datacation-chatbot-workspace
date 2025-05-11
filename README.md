@@ -102,7 +102,7 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 
 ```text
 .
-├── .env                    # Environment variables
+├── .env                   # Environment variables
 ├── chat_app.py            # Main application file
 ├── notebooks/             # Jupyter notebooks for development
 │   ├── workshop_part_1.ipynb
@@ -110,7 +110,7 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 ├── tools/                 # Custom tool implementations
 ├── tests/                 # Test suite
 ├── requirements.txt       # Project dependencies
-└── README.md             # This file
+└── README.md              # This file
 ```
 
 ## Dependencies

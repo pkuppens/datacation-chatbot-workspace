@@ -10,6 +10,26 @@ from typing import List, Optional
 import logging
 
 
+def get_project_root() -> Path:
+    """Get the absolute path to the project root directory.
+
+    This function determines the project root by looking for the pyproject.toml file,
+    starting from the current directory and moving up until it's found.
+
+    Returns:
+        Path: Absolute path to the project root directory
+
+    Raises:
+        FileNotFoundError: If pyproject.toml cannot be found in any parent directory
+    """
+    current_dir = Path.cwd()
+    while current_dir != current_dir.parent:  # Stop at root directory
+        if (current_dir / "pyproject.toml").exists():
+            return current_dir
+        current_dir = current_dir.parent
+    raise FileNotFoundError("Could not find project root (pyproject.toml) in any parent directory")
+
+
 def ensure_directories(base_dir: Optional[Path] = None, dirs: Optional[List[str]] = None, create_parents: bool = True) -> None:
     """Create necessary directories for the application.
 

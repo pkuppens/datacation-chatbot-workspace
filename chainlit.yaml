@@ -1,0 +1,3 @@
+ui:
+  translations_path: ".chainlit/translations"
+  config_path: ".chainlit/config.toml" 
