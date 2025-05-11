@@ -41,6 +41,7 @@ titanic-data-analyst-cli = "scripts.titanic_data_analyst_cli:main"
 titanic-pipeline = "data_pipeline.titanic_pipeline:main"
 test-gemini-500 = "test_gemini_api_500:main"
 notebook_1 = "scripts.notebook_1:main"
+notebook_2 = "scripts.notebook_2:main"
 
 [build-system]
 requires = ["hatchling"]

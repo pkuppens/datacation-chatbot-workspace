@@ -201,3 +201,5 @@ pyrightconfig.json
 data_sources/
 /logs/
 /knowledge/ 
+# Hmm, some problem sharing this folder between chainlits. Gitignore it also here
+notebooks/.chainlit/

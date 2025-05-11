@@ -1,11 +1,14 @@
-#!/usr/bin/env python3
-"""Script to run the workshop notebook with proper Chainlit configuration.
+"""Script to run the second workshop notebook with proper configuration.
 
-This script ensures that Chainlit is properly configured before running the notebook.
-It follows this flow:
-1. Load environment variables from .env file
-2. Set up Chainlit environment with proper paths
-3. Run the notebook with in-place execution
+This script ensures that the notebook runs with the correct environment setup,
+including Chainlit configuration and dependencies. It shares common functionality
+with notebook_1.py through utility modules.
+
+The script follows these steps:
+1. Load environment variables
+2. Set up Chainlit configuration
+3. Run the notebook with proper settings
+4. Handle any conversion files
 
 The script uses the following environment variables if set:
 - CHAINLIT_WORKSPACE_DIR: Base directory for Chainlit (defaults to project root)
@@ -14,6 +17,9 @@ The script uses the following environment variables if set:
 - NOTEBOOK_KEEP_CONVERT: If set to 'true', keeps the .nbconvert file instead of overwriting (default: false)
 
 References:
+- LangChain SQL Database Integration: https://python.langchain.com/docs/integrations/tools/sql_database/
+- Pandas Documentation: https://pandas.pydata.org/docs/
+- Chainlit Plotly Integration: https://docs.chainlit.io/api-reference/elements/plotly
 - nbconvert Documentation: https://nbconvert.readthedocs.io/
 - Jupyter Documentation: https://jupyter.org/documentation
 """
@@ -44,16 +50,17 @@ def load_environment():
 
 
 def setup_chainlit_environment():
-    """Configure Chainlit environment variables and ensure proper directory structure.
+    """Set up the Chainlit environment for notebook execution.
 
-    This function sets up the Chainlit environment with the following priority:
-    1. Use existing environment variables if set
-    2. Fall back to project root-based defaults if not set
+    This function ensures that:
+    1. The workspace directory is set to the project root
+    2. The Chainlit configuration is properly initialized
+    3. The translations path is set to a shared location
 
-    The function ensures that:
-    - All necessary directories exist
-    - Environment variables are set with absolute paths
-    - Configuration is consistent across the project
+    The configuration is managed in a way that:
+    - Uses existing environment variables if set
+    - Falls back to defaults if not set
+    - Maintains a single source of truth for configuration
     """
     # Get absolute paths for default configuration
     workspace_root = get_project_root()
@@ -89,7 +96,7 @@ def setup_chainlit_environment():
 
 
 def main():
-    """Main entry point for the script.
+    """Main function to run the notebook with proper configuration.
 
     This function:
     1. Loads environment variables
@@ -111,7 +118,7 @@ def main():
 
         # Create notebook runner
         runner = NotebookRunner(
-            notebook_path="notebooks/workshop_part_1.ipynb",
+            notebook_path="notebooks/workshop_part_2.ipynb",
             in_place=True,
             keep_convert=os.getenv("NOTEBOOK_KEEP_CONVERT", "").lower() == "true",
         )
