@@ -161,7 +161,7 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 - Remember to handle API keys securely
 - Consider implementing proper error handling
 - Add logging for better debugging
-- Use `notebook_1.py` to run notebooks with proper configuration
+- Use `notebook_1` or `notebook_2` to execute notebooks in place via cli.
 
 ## Resources
 
@@ -174,6 +174,9 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 
 ## About ReAct
 
+ReAct does not refer to a React.js application, but rather a Python-based agent system that follows the ReAct pattern for
+intelligent decision-making.
+
 ReAct (Reasoning and Acting) is a framework for building AI agents that combines:
 
 1. Reasoning: The agent thinks through problems step by step
@@ -185,6 +188,3 @@ In this project, ReAct is implemented using:
 - Chainlit for the chat interface
 - LangChain for the agent framework
 - Custom tools for data analysis and search
-
-The implementation is not a React.js application, but rather a Python-based agent system that follows the ReAct pattern for
-intelligent decision-making.
