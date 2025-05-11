@@ -1,5 +1,8 @@
 # Building an Agent-Based Chatbot
 
+A workshop, templated from [@DatacationOrg/chatbot-workshop](https://github.com/DatacationOrg/chatbot-workshop),
+to learn to build capable agents using LangChain and Gemini.
+
 This project guides you through building a powerful agent-based chatbot using LangChain and LangGraph.
 The implementation progresses from a basic LLM-powered chatbot to a sophisticated agent with tools and memory.
 
@@ -14,6 +17,11 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 - [x] Basic tool integration (DuckDuckGo search)
 - [x] Memory and checkpointing
 - [x] Code quality and security measures
+- [x] Notebook execution and configuration management
+  - [x] In-place notebook execution
+  - [x] Chainlit configuration centralization
+  - [x] Environment variable management
+  - [x] Project root detection
 
 ### Part 2: Advanced Agent Capabilities 🚀
 
@@ -88,6 +96,11 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 3. Basic tool implementation
 4. Memory management
 5. Security measures
+6. Notebook execution and configuration
+   - In-place execution with fallback
+   - Centralized Chainlit configuration
+   - Environment variable management
+   - Project root detection
 
 ### Part 2 (In Progress) 🚀
 
@@ -102,15 +115,19 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 
 ```text
 .
-├── .env                   # Environment variables
-├── chat_app.py            # Main application file
-├── notebooks/             # Jupyter notebooks for development
+├── .env                  # Environment variables
+├── env.example           # Example environment configuration
+├── chainlit.yaml         # Chainlit configuration
+├── chat_app.py           # Main application file
+├── notebooks/            # Jupyter notebooks for development
 │   ├── workshop_part_1.ipynb
 │   └── workshop_part_2.ipynb
-├── tools/                 # Custom tool implementations
-├── tests/                 # Test suite
-├── requirements.txt       # Project dependencies
-└── README.md              # This file
+├── scripts/              # Utility scripts
+│   └── notebook_1.py     # Notebook execution script
+├── tools/                # Custom tool implementations
+├── tests/                # Test suite
+├── requirements.txt      # Project dependencies
+└── README.md             # This file
 ```
 
 ## Dependencies
@@ -120,6 +137,8 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 - chainlit
 - python-dotenv
 - langchain-google-genai
+- jupyter
+- nbconvert
 
 ## Notes
 
@@ -128,6 +147,7 @@ The implementation progresses from a basic LLM-powered chatbot to a sophisticate
 - Remember to handle API keys securely
 - Consider implementing proper error handling
 - Add logging for better debugging
+- Use `notebook_1.py` to run notebooks with proper configuration
 
 ## Resources
 
