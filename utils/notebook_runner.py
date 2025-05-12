@@ -11,11 +11,9 @@ References:
 - Jupyter Documentation: https://jupyter.org/documentation
 """
 
-import os
 import subprocess
 from pathlib import Path
 import logging
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -147,7 +145,7 @@ class NotebookRunner:
             raise FileNotFoundError(f"Output file not found: {output_file}")
 
         # Replace the original file
-        logger.info(f"Replacing original notebook with executed version")
+        logger.info("Replacing original notebook with executed version")
         output_file.replace(self.notebook_path)
 
         # Clean up if not keeping convert file

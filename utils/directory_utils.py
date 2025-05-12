@@ -4,7 +4,6 @@ This module provides functions for managing application directories and files,
 ensuring they exist and are properly configured for the application's needs.
 """
 
-import os
 from pathlib import Path
 from typing import List, Optional
 import logging

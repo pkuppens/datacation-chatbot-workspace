@@ -1,4 +1,3 @@
-import pandas as pd
 from data_pipeline.titanic_pipeline import get_titanic_data
 
 

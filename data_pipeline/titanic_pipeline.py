@@ -11,7 +11,10 @@ from prefect.logging import get_run_logger
 
 # Constants
 DATA_DIR = Path("data_sources")
-TITANIC_CSV_URL = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+TITANIC_CSV_URL = (
+    "https://raw.githubusercontent.com/datasciencedojo/"
+    "datasets/master/titanic.csv"
+)
 TITANIC_CSV_PATH = DATA_DIR / "titanic.csv"
 TITANIC_DB_PATH = DATA_DIR / "titanic.sqlite"
 
@@ -49,9 +52,9 @@ def convert_to_sqlite(csv_path: Path) -> Path:
 def load_titanic_data() -> pd.DataFrame:
     """Load Titanic data from SQLite database.
 
-    Note: We explicitly remove name-related columns to protect privacy and prevent
-    potential discrimination. This is in line with data protection best practices
-    and ethical AI principles.
+    Note: We explicitly remove name-related columns to protect privacy and
+    prevent potential discrimination. This is in line with data protection
+    best practices and ethical AI principles.
     """
     engine = create_engine(f"sqlite:///{TITANIC_DB_PATH}")
     df = pd.read_sql("SELECT * FROM titanic", engine)
@@ -60,7 +63,9 @@ def load_titanic_data() -> pd.DataFrame:
     name_columns = [col for col in df.columns if "name" in col.lower()]
     if name_columns:
         df = df.drop(columns=name_columns)
-        get_run_logger().info(f"Removed name-related columns for privacy: {name_columns}")
+        get_run_logger().info(
+            f"Removed name-related columns for privacy: {name_columns}"
+        )
 
     return df
 

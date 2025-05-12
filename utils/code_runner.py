@@ -6,7 +6,6 @@ with proper error handling and logging.
 
 from typing import Any, Dict, Optional
 import traceback
-from pathlib import Path
 from utils.logger import logger
 
 

@@ -2,7 +2,6 @@
 This script focuses on validating the dataset structure and data quality before it enters our pipeline."""
 
 from datasets import load_dataset
-import pandas as pd
 import logging
 from typing import Dict, Any
 

@@ -1,15 +1,9 @@
 import unittest
-import logging
-import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from tools.titanic_agent import create_titanic_agent
-from google.api_core import exceptions as google_exceptions
 from datasets import load_dataset
 from config import config
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
+from utils.logger import logger
 
 
 class TestTitanicAgent(unittest.TestCase):

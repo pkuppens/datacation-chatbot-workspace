@@ -5,21 +5,25 @@ coordinating the UI, agent, and message handling components.
 """
 
 import chainlit as cl
-from datetime import datetime
 from langchain_core.runnables import RunnableConfig
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.tools import Tool
-from config import config
+from langchain.agents import AgentExecutor, Agent
 import json
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
 import functools
 import traceback
 
 from utils.directory_utils import ensure_directories
-from utils.code_runner import CodeRunner
 from utils.logger import logger
-from tools.agents.pandas_agent import create_pandas_agent
+
+# Suggested prompts for quick access
+SUGGESTED_PROMPTS = [
+    "How many passengers survived the Titanic disaster?",
+    "What is the average age of the passengers?",
+    "What is the survival rate for male and female passengers?",
+    "Show the top 5 oldest passengers and their survival status.",
+    "Analyze the relationship between fare and survival"
+]
 
 # Ensure directories exist at application startup
 ensure_directories()
@@ -247,17 +251,6 @@ class ChatAgent:
         - Port mapping for embarkation locations
         - Error handling and retry logic
         """
-        # Configure logging for the agent
-        self.logger = logging.getLogger("chat_agent")
-        self.logger.setLevel(logging.DEBUG)
-
-        # Create a file handler for detailed logging
-        fh = logging.FileHandler("agent.log")
-        fh.setLevel(logging.DEBUG)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        fh.setFormatter(formatter)
-        self.logger.addHandler(fh)
-
         # Port mapping for embarkation locations
         self.port_mapping = {"S": "Southampton", "C": "Cherbourg", "Q": "Queenstown"}
 

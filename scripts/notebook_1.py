@@ -84,7 +84,7 @@ def setup_chainlit_environment():
         notebook_config = workspace_root / "notebooks/.chainlit/config.toml"
         if notebook_config.exists():
             shutil.copy2(notebook_config, config_file)
-            print(f"Initialized root config.toml from notebooks directory")
+            print("Initialized root config.toml from notebooks directory")
             print("Note: Future changes should be made to the root config.toml only")
 
 

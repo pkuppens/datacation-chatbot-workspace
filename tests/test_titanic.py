@@ -5,8 +5,6 @@ of the Titanic dataset.
 """
 
 import pytest
-import pandas as pd
-from utils.logger import logger
 
 
 @pytest.mark.data

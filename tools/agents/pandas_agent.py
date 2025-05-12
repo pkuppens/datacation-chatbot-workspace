@@ -7,7 +7,6 @@ with proper tools and error handling.
 from langchain.agents import create_pandas_dataframe_agent
 from langchain.tools import Tool
 from langchain_google_genai import ChatGoogleGenerativeAI
-from config import config
 import pandas as pd
 from utils.logger import logger
 

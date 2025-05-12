@@ -1,17 +1,12 @@
 """Titanic agent module - single source of truth for Titanic dataset analysis."""
 
-import logging
 from typing import Any
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from data_pipeline.titanic_pipeline import get_titanic_data
 from tools.knowledge import knowledge_base, DataInsight, AnalysisStep
 from datetime import datetime
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
-
+from utils.logger import logger
 
 def create_titanic_agent(model: ChatGoogleGenerativeAI) -> Any:
     """Create a pandas DataFrame agent for Titanic dataset analysis.

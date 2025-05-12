@@ -5,9 +5,6 @@ the application.
 """
 
 import pytest
-from utils.logger import logger
-from utils.directory_utils import ensure_directories
-from utils.code_runner import CodeRunner
 
 
 @pytest.mark.unit

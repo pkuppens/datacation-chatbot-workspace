@@ -5,8 +5,6 @@ and LLM interactions.
 """
 
 import pytest
-from chainlit import Message
-from utils.logger import logger
 
 
 @pytest.mark.llm
