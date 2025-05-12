@@ -39,6 +39,7 @@ chat = "chat_app:main"
 test-titanic = "test_titanic_db:test_titanic_queries"
 titanic-data-analyst-cli = "scripts.titanic_data_analyst_cli:main"
 titanic-pipeline = "data_pipeline.titanic_pipeline:main"
+show-schema = "tools.show_schema:main"
 test-gemini-500 = "test_gemini_api_500:main"
 notebook_1 = "scripts.notebook_1:main"
 notebook_2 = "scripts.notebook_2:main"
@@ -87,11 +88,11 @@ target-version = "py311"
 
 [tool.ruff.lint]
 # Basic error and warning checks only
-select = ["E", "W"]
+select = ["E", "W", "F"]
 ignore = ["E501"]  # Ignore line length errors
 
 # Allow autofix for warnings
-fixable = ["W"]
+fixable = ["W", "F"]
 
 [tool.ruff.format]
 # Use double quotes for strings

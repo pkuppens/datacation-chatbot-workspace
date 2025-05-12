@@ -1,6 +1,5 @@
 import sys
-from pathlib import Path
-from .database import TitanicDatabase
+from data_pipeline.titanic_pipeline import get_sqlite_connection
 
 
 def format_schema_description(schema_desc: str) -> str:
@@ -28,14 +27,28 @@ def format_schema_description(schema_desc: str) -> str:
     return "\n".join(formatted_lines)
 
 
+def get_schema_description() -> str:
+    """Get the schema description from the SQLite database."""
+    conn = get_sqlite_connection()
+    cursor = conn.cursor()
+
+    # Get table info
+    cursor.execute("PRAGMA table_info(titanic)")
+    columns = cursor.fetchall()
+
+    schema_desc = "Table: titanic\nColumns:\n"
+    for col in columns:
+        schema_desc += f"- {col[1]}: {col[2]}\n"
+
+    conn.close()
+    return schema_desc
+
+
 def main():
     """Display the database schema."""
     try:
-        # Initialize database
-        db = TitanicDatabase()
-
         # Get and format schema description
-        schema = db.get_schema_description()
+        schema = get_schema_description()
         formatted_schema = format_schema_description(schema)
 
         # Print with a nice header
@@ -43,10 +56,6 @@ def main():
         print(formatted_schema)
         print("\n==============================\n")
 
-    except FileNotFoundError as e:
-        print(f"Error: {str(e)}")
-        print("\nPlease run create_titanic_db.py first to create the database.")
-        sys.exit(1)
     except Exception as e:
         print(f"Error: {str(e)}")
         sys.exit(1)
