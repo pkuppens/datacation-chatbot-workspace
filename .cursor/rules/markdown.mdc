@@ -1,0 +1,16 @@
+---
+description: 
+globs: *.md
+alwaysApply: false
+---
+Use CommonMark and GitHub Flavored Markdown (GFM) features for headings, lists, links, images, tables, task lists, and fenced code blocks.
+Reference: https://github.github.com/gfm/
+
+Use references for online sources used for your documentation.
+
+When asked for project plans or task lists, use checkboxes for enumeration of tasks and subtasks, and a list for the steps.
+
+In markdown files, do not use: HTML, LaTeX/KaTex math, Footnotes.
+
+Expect that markdownlint will be applied.
+

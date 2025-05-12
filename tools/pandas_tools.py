@@ -6,10 +6,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from tools.titanic_agent import create_titanic_agent
 
 # Suppress specific warnings
-warnings.filterwarnings(
-    "ignore",
-    message="Convert_system_message_to_human will be deprecated!"
-)
+warnings.filterwarnings("ignore", message="Convert_system_message_to_human will be deprecated!")
 
 
 def create_pandas_agent(model: ChatGoogleGenerativeAI) -> Any:

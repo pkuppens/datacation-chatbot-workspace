@@ -8,6 +8,7 @@ from tools.knowledge import knowledge_base, DataInsight, AnalysisStep
 from datetime import datetime
 from utils.logger import logger
 
+
 def create_titanic_agent(model: ChatGoogleGenerativeAI) -> Any:
     """Create a pandas DataFrame agent for Titanic dataset analysis.
 

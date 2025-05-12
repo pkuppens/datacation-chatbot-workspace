@@ -11,10 +11,7 @@ from prefect.logging import get_run_logger
 
 # Constants
 DATA_DIR = Path("data_sources")
-TITANIC_CSV_URL = (
-    "https://raw.githubusercontent.com/datasciencedojo/"
-    "datasets/master/titanic.csv"
-)
+TITANIC_CSV_URL = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
 TITANIC_CSV_PATH = DATA_DIR / "titanic.csv"
 TITANIC_DB_PATH = DATA_DIR / "titanic.sqlite"
 
@@ -63,9 +60,7 @@ def load_titanic_data() -> pd.DataFrame:
     name_columns = [col for col in df.columns if "name" in col.lower()]
     if name_columns:
         df = df.drop(columns=name_columns)
-        get_run_logger().info(
-            f"Removed name-related columns for privacy: {name_columns}"
-        )
+        get_run_logger().info(f"Removed name-related columns for privacy: {name_columns}")
 
     return df
 

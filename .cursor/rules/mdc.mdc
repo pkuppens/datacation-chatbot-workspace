@@ -1,0 +1,48 @@
+---
+description: Guidelines and best practices for creating .mdc (Markdown Configuration) files in Cursor, including structure, metadata annotations, and formatting rules
+globs: ["**/*.mdc"]
+alwaysApply: false
+---
+# MDC File Guidelines
+
+@context {
+  "type": "documentation",
+  "purpose": "cursor_rules",
+  "format_version": "1.0.0",
+  "supported_content_types": [
+    "guidelines",
+    "api_docs",
+    "examples",
+    "implementations"
+  ]
+}
+
+## File Structure
+
+### 1. Frontmatter
+Every MDC file must start with frontmatter containing:
+- `description`: A clear, single-line description of the rule's purpose
+- `globs`: Array of file patterns where the rule applies
+- `alwaysApply`: Boolean indicating if rule applies globally (optional)
+
+### 2. Content Format
+- Use clear, concise language at B2 English level
+- Structure content with markdown headings and lists
+- Include examples when helpful
+- Keep rules specific and actionable
+
+### 3. Rule Types
+- Project Management: Guidelines for project documentation and planning
+- Language: Writing style and language preferences
+- Code Style: Python code formatting and documentation
+- Documentation: Markdown and documentation standards
+- Git: Commit message and version control practices
+
+### 4. Validation
+- All MDC files must have valid frontmatter
+- Rules must be clear and actionable
+- File patterns in globs must be valid
+- Content must follow project's language preferences
+
+@version "1.0.0"
+@last_updated "2024-03-19"

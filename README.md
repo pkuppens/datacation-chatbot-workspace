@@ -1,5 +1,7 @@
 # Building an Agent-Based Chatbot
 
+## Project Description
+
 A workshop, templated from [@DatacationOrg/chatbot-workshop](https://github.com/DatacationOrg/chatbot-workshop),
 to learn to build capable agents using LangChain and Gemini.
 

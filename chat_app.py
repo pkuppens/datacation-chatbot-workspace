@@ -22,7 +22,7 @@ SUGGESTED_PROMPTS = [
     "What is the average age of the passengers?",
     "What is the survival rate for male and female passengers?",
     "Show the top 5 oldest passengers and their survival status.",
-    "Analyze the relationship between fare and survival"
+    "Analyze the relationship between fare and survival",
 ]
 
 # Ensure directories exist at application startup

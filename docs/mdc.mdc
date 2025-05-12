@@ -1,0 +1,183 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project MDC File Guidelines
+
+@context {
+  "type": "documentation",
+  "purpose": "project_rules",
+  "format_version": "1.0.0",
+  "supported_content_types": [
+    "guidelines",
+    "api_docs",
+    "examples",
+    "implementations"
+  ]
+}
+
+@structure {
+  "required_sections": [
+    "frontmatter",
+    "title",
+    "context",
+    "content_sections"
+  ],
+  "optional_sections": [
+    "version",
+    "last_updated",
+    "examples",
+    "implementations",
+    "related_files"
+  ],
+  "recommended_sections": [
+    "practical_examples",
+    "common_patterns",
+    "type_definitions"
+  ]
+}
+
+## File Structure
+
+### 1. Frontmatter
+
+@frontmatter_rules [
+  {
+    "id": "position",
+    "rule": "Must be at the very top of the file",
+    "severity": "error"
+  },
+  {
+    "id": "description",
+    "rule": "Single sentence, clear purpose",
+    "severity": "error"
+  },
+  {
+    "id": "globs",
+    "rule": "Array of relevant file patterns",
+    "severity": "error"
+  }
+]
+
+Example frontmatter:
+```yaml
+---
+description: Guidelines for implementing feature X
+globs: ["**/*.{py,md}"]
+---
+```
+
+### 2. Content Guidelines
+
+@content_rules {
+  "language": {
+    "level": "B2 English",
+    "exceptions": [
+      "Technical terms",
+      "Code examples",
+      "API documentation"
+    ]
+  },
+  "code_comments": {
+    "style": "Clear and concise",
+    "language": "B2 English",
+    "required": [
+      "Function purpose",
+      "Parameter descriptions",
+      "Return value explanation"
+    ]
+  },
+  "documentation": {
+    "style": "Markdown",
+    "required_sections": [
+      "Overview",
+      "Usage",
+      "Examples",
+      "API Reference"
+    ]
+  }
+}
+
+### 3. Python-Specific Rules
+
+@python_rules {
+  "docstrings": {
+    "style": "Google style",
+    "required": [
+      "Description",
+      "Args",
+      "Returns",
+      "Raises"
+    ]
+  },
+  "type_hints": {
+    "required": true,
+    "style": "Python 3.9+"
+  }
+}
+
+### 4. Common Section Examples
+
+#### Rules Section
+```markdown
+@rules [
+  {
+    "id": "unique_identifier",
+    "severity": "error|warning|info",
+    "description": "Clear description of the rule"
+  }
+]
+```
+
+#### Options Section
+```markdown
+@options {
+  "option_name": "What this option does",
+  "another_option": "Description of another option"
+}
+```
+
+### 5. Common Mistakes to Avoid
+
+@mistakes [
+  {
+    "id": "missing_frontmatter",
+    "wrong": "Starting directly with content",
+    "correct": "Include frontmatter at top",
+    "reason": "Frontmatter is required for proper parsing"
+  },
+  {
+    "id": "inconsistent_language",
+    "wrong": "Using complex language",
+    "correct": "Use B2 level English",
+    "reason": "Ensures readability for non-native speakers"
+  },
+  {
+    "id": "incomplete_docstrings",
+    "wrong": "Missing required docstring sections",
+    "correct": "Include all required sections",
+    "reason": "Maintains documentation consistency"
+  }
+]
+
+## Validation
+
+@validation {
+  "required": [
+    "Frontmatter must be present and valid",
+    "Main title must be present",
+    "At least one content section",
+    "Complete implementation examples when relevant"
+  ],
+  "recommended": [
+    "Version information",
+    "Last updated date",
+    "Clear examples",
+    "Proper code formatting",
+    "Type definitions"
+  ]
+}
+
+@version "1.0.0"
+@last_updated "2024-03-19"

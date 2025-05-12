@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+- Write commit messages in English
+- Use first line with type (e.g., "docs:", "fix:", "tests:", "cicd:", "refactor:"), and concise message
+- Keep the first line under 120 characters
+- Only add a detailed description when necessary:
+  * For complex changes that need explanation
+  * When fixing a bug that needs context
+  * When the change affects multiple components
+- If adding a detailed description:
+  * Add a blank line after the first line
+  * Write the description in full sentences
+  * Explain the "why" rather than the "what" and the "how"
+

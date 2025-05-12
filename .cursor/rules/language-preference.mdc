@@ -1,0 +1,12 @@
+---
+description: Guidelines and best practices for language use in the project.
+globs: 
+alwaysApply: true
+---
+# Language Guidelines
+
+- Use Level B2 English for easy readability, especially for non-native English speakers.
+- Exceptions:
+  * Jargon and technical terms with specific definitions and meaning.
+  * When explicitly asked to respond in a different language.
+- Apply the language preference in chat, documentation, generated code, and code comments.

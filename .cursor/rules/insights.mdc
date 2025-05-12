@@ -1,0 +1,12 @@
+---
+description: Guidelines for gained insights from the chat.
+globs: 
+alwaysApply: true
+---
+# Documentation Insights Guidelines
+
+- Prefer to store insights in project documentation and inline code comments over chat responses.
+- If you explain a piece of code, write this as inline code comments near the code, instead of in the chat.
+- If you explain a finding or a decision, write this in the markdown documentation files, rather than only chat output.
+- The chat can then mention with a concise message that this edit will be made in code comments or project documentation.
+- Focus on the "why", only mention the "what" and "how" when necessary.
